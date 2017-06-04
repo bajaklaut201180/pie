@@ -1,0 +1,39 @@
+<?php defined('BASEPATH') or exit('No Direct Script Allowed');
+
+class Model_login extends CI_Model
+{
+    var $table = "admin";
+    
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->database();
+    }
+    
+    public function validate($post)
+    {
+        // check username to database
+        $this->db->where('username_admin', $post['username']);
+        $query = $this->db->get($this->table);
+        $result = $query->result_array();
+
+        if($result){
+            // if username available, check password
+            $this->db->where('username_admin', $post['username']);
+            $this->db->where('password_admin', md5($post['password']));
+            $query = $this->db->get($this->table);
+            $result = $query->result_array();
+            
+            if($result){
+                //pre("success");  
+                $this->session->set_userdata('success_login', 'success');
+                $this->session->set_userdata('privileges', 'superadmin'); 
+            }else{
+                pre('password didnt match with username');
+            }
+        }else{
+            pre('username not available');
+        }
+        
+    }
+}

@@ -1,0 +1,42 @@
+<div class="vertical-center">
+    <div class="container">
+        <div class="form-login">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>LOGIN</strong></h3>
+                </div> 
+                <div class="panel-body">
+                    <form method="POST" action="<?= base_url('admin/login'); ?>">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="username" placeholder="Username" />
+                        </div>
+                        <div class="form-group form-relative">
+                            <input id="password" class="form-control" type="password" name="password" placeholder="Password" />
+                            <i onmouseover="mouseoverPass();" onmouseout="mouseoutPass();" class="fa fa-eye" aria-hidden="true"></i>
+                            
+                        </div>
+                        <div class="form-group text-right">
+                            <input class="btn btn-default" type="submit" name="submit" value="SUBMIT" />
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    <p class="text-right">
+                        <strong>Powered by bootstrap</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function mouseoverPass(obj) {
+        var obj = document.getElementById('password');
+        obj.type = "text";
+    }
+    function mouseoutPass(obj) {
+        var obj = document.getElementById('password');
+        obj.type = "password";
+    }
+</script>

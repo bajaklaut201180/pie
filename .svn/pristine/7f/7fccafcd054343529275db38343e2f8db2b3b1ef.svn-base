@@ -1,0 +1,6 @@
+RewriteEngine on
+#RewriteCond %{HTTP_HOST} ^deliverpie\.com$ [NC]
+#RewriteRule ^(.*)$ http://www.deliverpie.com/$1 [R=301,L]
+
+RewriteCond $1 !^(index\.php|files|images|assets|robots\.txt)
+RewriteRule ^(.*)$ /deliverpie/index.php/$1 [L]

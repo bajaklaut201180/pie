@@ -16,23 +16,23 @@ class Model_user extends CI_Model
         $unique_id = unique_id($this->table);
         $save_data = array();
         
-        if(!empty($_FILES['foto_banner']['name'])){
-            $file = mox_upload('foto_banner', 'assets/images/banner');
-    		$file_thumbs = mox_upload('foto_banner', 'assets/images/banner/thumbs');	
+        if(!empty($_FILES['foto_user']['name'])){
+            $file = mox_upload('foto_user', 'assets/images/user');
+    		$file_thumbs = mox_upload('foto_user', 'assets/images/user/thumbs');	
             if(isset ($file))
             {
                 $image = mox_resize($file, $this->width, $this->height);
     			$image_thumbs = mox_resize($file_thumbs, $this->width/4, $this->height/4);
-    			$data['foto_banner'] = $image['file_name'];
-    			$data['foto_banner'] = $image_thumbs['file_name'];
+    			$data['foto_user'] = $image['file_name'];
+    			$data['foto_user'] = $image_thumbs['file_name'];
             }
         }
         
-        if(!empty ($data['name_banner'])) $save_data['banner_name'] = $data['name_banner'];
-        if(!empty ($data['caption_banner'])) $save_data['banner_caption'] = $data['caption_banner'];
+        if(!empty ($data['name_user'])) $save_data['user_name'] = $data['name_user'];
+        if(!empty ($data['caption_user'])) $save_data['user_caption'] = $data['caption_user'];
         if(!empty ($data['url'])) $save_data['url'] = $data['url'];
-        if(!empty ($data['foto_banner'])) $save_data['banner_image'] = $data['foto_banner'];
-        if(!empty ($data['description_banner'])) $save_data['banner_description'] = $data['description_banner'];
+        if(!empty ($data['foto_user'])) $save_data['user_image'] = $data['foto_user'];
+        if(!empty ($data['description_user'])) $save_data['user_description'] = $data['description_user'];
         if(!empty($data['flag'])) $save_data['flag'] = $data['flag'];
         
         if(!$id)
@@ -61,12 +61,14 @@ class Model_user extends CI_Model
     public function get($id = false)
     {
         if(!$id){
-            $query = $this->db->order_by($this->table .'_id', 'DESC')->get_where($this->table, array('flag<'=>3));
+            //$query = $this->db->order_by($this->table .'_id', 'DESC')->get_where($this->table, array('flag<'=>3, 'privileges_id !='=>1));
+            $query = $this->db->query("SELECT {$this->table}.unique_id, {$this->table}.{$this->table}_id, {$this->table}.privileges_id, {$this->table}.username_admin, privileges.privileges_name, {$this->table}.flag FROM {$this->table} INNER JOIN privileges WHERE {$this->table}.flag < 3 AND {$this->table}.privileges_id != 1 AND privileges.privileges_id = {$this->table}.privileges_id");
             $result = $query->result_array();
         }else{
             $query = $this->db->where($this->table .'_id', $id)->get_where($this->table);
             $result = $query->row_array();
         }
+        
         return $result;
             
     }

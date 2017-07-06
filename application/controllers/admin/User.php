@@ -21,8 +21,8 @@ class User extends CI_Controller
         $this->load->model($this->model);
         $model_name = $this->model;
         
-        $asset['banner'] = $this->$model_name->get();
-        //pre($asset['banner']);
+        $asset['user'] = $this->$model_name->get();
+        //pre($asset['user']);
         
         $this->load->view('admin/template/header', $asset);
         $this->load->view('admin/template/top');

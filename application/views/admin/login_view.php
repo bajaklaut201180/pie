@@ -30,7 +30,7 @@
 
                 <div class="panel-footer">
                     <p class="text-right">
-                        <strong>Powered by bootstrap</strong>
+                        <strong>Deliver Pie</strong>
                     </p>
                 </div>
             </div>

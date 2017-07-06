@@ -19,6 +19,7 @@
                 <li> <a href="#"><i class="fa fa-cog fa-fw"></i> Setting<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li> <a href="<?= base_url('admin/section'); ?>">Section</a> </li>
+                        <li> <a href="<?= base_url('admin/user'); ?>">User</a> </li>
                     </ul>
                 </li>
                 <li> <a href="#"><i class="fa fa-edit fa-fw"></i> Content<span class="fa arrow"></span></a>

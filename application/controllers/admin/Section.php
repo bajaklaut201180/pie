@@ -93,20 +93,18 @@ class Section extends CI_Controller
     {   
         $asset = array(
             'title'     =>'View section',
-            'js'        =>array('bootstrap.min', 'ckeditor/adapters/jquery', 'ckeditor/ckeditor','jquery.dataTables.min', 'dataTables.bootstrap.min', 'dataTables.responsive'),
-            'css'       =>array('bootstrap.min', 'dataTables.bootstrap', 'dataTables.responsive'),
+            'js'            => array('jquery.dataTables.min', 'dataTables.bootstrap.min', 'dataTables.responsive'),
+            'css'           => array('dataTables.bootstrap', 'dataTables.responsive'),
             'userdata'  => $this->session->userdata()
         ); 
         
         $this->load->model($this->model);
-        $this->load->model($this->model_additional);
         $model_name = $this->model;
-        $model_additional = $this->model_additional;
         $check_section = $this->$model_name->get($item_id);
-        $check_additional = $this->$model_additional->get($item_id);
+        
         
         $asset['section'] = $check_section;
-       
+        
         $this->load->view('admin/template/header', $asset);
         $this->load->view('admin/template/top');
         $this->load->view('admin/' .$this->url .'/view_' .$this->url);

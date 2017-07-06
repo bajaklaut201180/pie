@@ -1,5 +1,15 @@
 <?php if(!defined('BASEPATH')) exit ('No Direct Script Access Allowed');
 
+if(!function_exists('check_table')){
+    function check_table()
+    {
+        $ci =& get_instance();
+        $result = $ci->db->list_tables();
+        
+        return $result;
+    }
+}
+
 if(!function_exists('action_log')){
     function action_log($action, $db, $val = '#', $name, $desc)
 	{

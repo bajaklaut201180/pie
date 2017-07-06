@@ -1,0 +1,138 @@
+$color_1 : #4abdac;
+$color_2 : #fc4a1a;
+$color_3 : #f7b733;
+$color_4 : #dfdce3;
+
+$black : #000000;
+$putih : #ffffff;
+
+body, #wrapper {}
+
+.form-group {
+  &.form-relative {
+    position: relative;
+  }
+  .fa-eye {
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    right: 5px;
+    cursor: pointer;
+  }
+}
+
+.vertical-center {
+  min-height: 100%;
+  /* if borwser NOT support vh unit */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.form-login {
+  max-width: 50%;
+  margin: 0px auto;
+}
+
+#main-navigasi {
+  background: $color_1;
+  .nav {
+    .open > a {
+      &:focus, &:hover {
+        background: $color_3;
+      }
+    }
+    > li > a {
+      &:focus, &:hover {
+        background: $color_3;
+        color: #fff;
+      }
+    }
+  }
+  .sidebar ul li a.active {
+    background: $color_3;
+    color: #fff;
+  }
+}
+
+#page-wrapper {
+  select.form-control.input-sm {
+    background: $color_2;
+    color: $putih;
+  }
+  .pagination > li {
+    &:first-child > {
+      a, span {
+        background: $color_2;
+        color: $putih;
+      }
+    }
+    &:last-child > {
+      a, span {
+        background: $color_2;
+        color: $putih;
+      }
+    }
+  }
+  .panel-default {
+    border-color: $color_1 !important;
+  }
+}
+
+.btn-submit {
+  background: #fff;
+  color: #000;
+}
+
+button.btn-submit:hover {
+  background: $color_3 !important;
+  color: $putih;
+}
+
+.black-flag {
+  background: black;
+  width: 10px;
+  height: 10px;
+  display: block;
+  margin: 0px 10px;
+  display: inline-block;
+}
+
+.green-flag {
+  background: green;
+  width: 10px;
+  height: 10px;
+  display: block;
+  margin: 0px 10px;
+  display: inline-block;
+}
+
+.red-flag {
+  background: #f00;
+  width: 10px;
+  height: 10px;
+  display: block;
+  margin: 0px 10px;
+  display: inline-block;
+}
+
+.btn-upload {
+  width: 100%;
+}
+
+input[type=file] {
+  margin: 0px auto;
+}
+
+.navbar-top-links .fa {
+  color: #fff;
+}
+
+.navbar-default .navbar-brand {
+    color: $putih !important;
+}
+.panel-default>.panel-heading {
+    background: $color_1;  
+    padding: 15px 15px;
+    color: $putih;  
+}

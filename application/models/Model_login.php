@@ -56,8 +56,9 @@ class Model_login extends CI_Model
     
     public function set_access($id_privileges)
     {   
+        //pre($this->session->userdata());
         //check id on db privileges
-        if($privileges_if == 1){
+        if($privileges_id == 1){
             // super admin
         }else if($privileges_id == 2){
             // administrator

@@ -21,7 +21,6 @@ class Login extends CI_Controller
             if ($this->session->userdata()['check_login']['status'] == true)
             {
                 $asset['title'] = "Success Login";
-                
                 // if match, direct to main page with session
                 $this->load->view('admin/template/header', $asset);
                 $this->load->view('admin/template/top');
@@ -69,7 +68,7 @@ class Login extends CI_Controller
             if($response){
                 $this->model_login->set_access($response['user']['privileges_id']);
                 $this->session->set_userdata($response);  
-                pre($response);
+                //pre($response);
             }
         
         redirect(base_url('admin/login'));

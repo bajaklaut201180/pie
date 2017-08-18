@@ -27,7 +27,7 @@
                                 foreach($log as $row => $value){ 
                             ?>
                                 <tr class="<?= ($value['log_id'] %2)?'even':'odd'; ?>">
-                                    <td><?= date('d F Y', strtotime($value['date'])); ?></td>
+                                    <td><?= date('d F Y', strtotime($value['log_date'])); ?></td>
                                     <td><?= $value['log_db']; ?></td>
                                     <td><?= $value['log_name']; ?></td>
                                     <td><?= $value['log_action']; ?></td>

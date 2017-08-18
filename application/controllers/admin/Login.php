@@ -2,6 +2,12 @@
 
 class Login extends CI_Controller
 {
+
+    function __construct() {
+        parent::__construct();
+
+    }
+
     public function index()
     {
         $asset = array(
@@ -12,6 +18,7 @@ class Login extends CI_Controller
         if (!isset($this->session->userdata()['check_login']['status']))
         {
             // if false, back to login view
+            // pre($this->session->userdata());
             $this->load->view('admin/template/header', $asset);
             $this->load->view('admin/login_view');
             $this->load->view('admin/template/footer');
@@ -20,6 +27,7 @@ class Login extends CI_Controller
         {
             if ($this->session->userdata()['check_login']['status'] == true)
             {
+                // pre($this->session->all_userdata());
                 $asset['title'] = "Success Login";
                 // if match, direct to main page with session
                 $this->load->view('admin/template/header', $asset);
@@ -64,14 +72,13 @@ class Login extends CI_Controller
             $post = $this->input->post();
             $response = $this->model_login->validate($post);
             
-           // set userdata
-            if($response){
-                $this->model_login->set_access($response['user']['privileges_id']);
-                $this->session->set_userdata($response);  
-                //pre($response);
+           // set access menu
+            if($response['user']){
+                $response['user']['access_menu'] = $this->model_login->set_access($response['user']['admin_id']);
             }
-        
-        redirect(base_url('admin/login'));
+            
+            $this->session->set_userdata($response);  
+            redirect(base_url('admin/login'));
         
         }
     }

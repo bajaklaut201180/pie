@@ -18,8 +18,10 @@ class Model_section extends CI_Model
         
         if(!empty ($data['name_section'])) $save_data['section_name'] = $data['name_section'];
         if(!empty ($data['parent_section'])) $save_data['section_parent'] = $data['parent_section'];
+        if(!($data['parent_section'])) $save_data['section_parent'] = 0;
         if(!empty($data['flag'])) $save_data['flag'] = $data['flag'];
         
+
         if(!$id)
         {
             // insert to database

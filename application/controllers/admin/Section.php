@@ -9,6 +9,7 @@ class Section extends CI_Controller
     function __construct()
 	{
 		parent::__construct();
+        checking_session();
 	}
 	
     function index()
@@ -18,12 +19,11 @@ class Section extends CI_Controller
             'js'            => array('jquery.dataTables.min', 'dataTables.bootstrap.min', 'dataTables.responsive'),
             'css'           => array('dataTables.bootstrap', 'dataTables.responsive')
         );
+        // pre($this->session->userdata());
         $this->load->model($this->model);
         $model_name = $this->model;
         
         $asset['section'] = $this->$model_name->get();
-        //pre($asset['section']);
-        //pre($this->session->userdata());
         
         $this->load->view('admin/template/header', $asset);
         $this->load->view('admin/template/top');
@@ -33,13 +33,18 @@ class Section extends CI_Controller
     
     public function add()
     {
-        $this->load->library('upload');
+        $this->load->library('form_validation');
         $asset = array(
             'title'     =>$this->title,
             'js'        =>array('ckeditor/adapters/jquery', 'ckeditor/ckeditor'),
             'css'       =>array()
         ); 
         
+        $this->load->model($this->model);
+        $model_name = $this->model;
+
+        $asset['sectionCategory'] = $this->$model_name->get();
+        // pre($asset['section']);
         $this->form_validation->set_rules('name_section', 'name_section', 'required');
         
         if($this->form_validation->run()==FALSE)
@@ -60,41 +65,14 @@ class Section extends CI_Controller
         }    
     }
     
-    public function updates()
-    {
-        $this->load->library('form_validation');
-        $this->load->library('upload');
-        $asset = array(
-            'title'     =>$this->title,
-            'js'        =>array('bootstrap.min'),
-            'css'       =>array('bootstrap.min'),
-            'userdata'  => $this->session->userdata()
-        ); 
-        
-        $this->form_validation->set_rules('name_section', 'name_section', 'required');
-        
-        if($this->form_validation->run()==FALSE)
-        {
-            echo "failed";    
-        }
-        else
-        {
-
-            $this->load->model($this->model);
-            $model_name = $this->model;
-            $this->$model_name->save($this->input->post(), $this->input->post('id_section')); 
-            
-            redirect(base_url('admin/' .$this->url)); 
-            
-        }
-    }
     
-    public function view($item_id)
+    public function view($item_id=null)
     {   
+        $this->load->library('form_validation');
         $asset = array(
             'title'     =>'View section',
-            'js'            => array('jquery.dataTables.min', 'dataTables.bootstrap.min', 'dataTables.responsive'),
-            'css'           => array('dataTables.bootstrap', 'dataTables.responsive'),
+            'js'        => array('ckeditor/adapters/jquery', 'ckeditor/ckeditor'),
+            'css'       => array(),
             'userdata'  => $this->session->userdata()
         ); 
         
@@ -102,13 +80,27 @@ class Section extends CI_Controller
         $model_name = $this->model;
         $check_section = $this->$model_name->get($item_id);
         
-        
+        $asset['sectionCategory'] = $this->$model_name->get();
         $asset['section'] = $check_section;
+
+        $this->form_validation->set_rules('name_section', 'name_section', 'required');
         
-        $this->load->view('admin/template/header', $asset);
-        $this->load->view('admin/template/top');
-        $this->load->view('admin/' .$this->url .'/view_' .$this->url);
-        $this->load->view('admin/template/footer');   
+        if($this->form_validation->run()==FALSE)
+        {
+            $this->load->view('admin/template/header', $asset);
+            $this->load->view('admin/template/top');
+            $this->load->view('admin/' .$this->url .'/view_' .$this->url);
+            $this->load->view('admin/template/footer');   
+        }
+        else
+        {
+            $this->load->model($this->model);
+            $model_name = $this->model;
+            $this->$model_name->save($this->input->post(), $this->input->post('id_section')); 
+            
+            redirect(base_url('admin/' .$this->url)); 
+            
+        }
     }
     
     

@@ -1,5 +1,94 @@
 <?php if(!defined('BASEPATH')) exit ('No Direct Script Access Allowed');
 
+if(!function_exists('checking_session')) {
+    function checking_session()
+    {
+        $ci =& get_instance();
+
+        if(!isset($ci->session->userdata()['check_login']['status'])) {
+             redirect(base_url('piecms'));
+        }
+    }
+}
+
+if(!function_exists('get_parent')) {
+    function get_parent()
+    {
+        $ci =& get_instance();
+
+        $navigasi = array();
+        $result = $ci->db->select('section_id')->select('section_name')->select('section_parent')->get('section')->result_array();
+
+        foreach($result as $row => $value) {
+            if($value['section_parent'] == 0) {
+                $navigasi[] = $value;
+            }
+        }
+
+        $result = $navigasi;
+        return $result;
+        // pre($result);
+    }
+}
+
+
+if(!function_exists('access_menu')) {
+    function access_menu()
+    {
+        $ci =& get_instance();
+
+        $navigasi = array();
+        $result = $ci->db->select('section_id')->select('section_name')->select('section_parent')->get('section')->result_array();
+        
+        // get check parent navigasi
+        foreach($result as $row => $value){
+            // get child nav
+            if($value['section_parent'] > 0) {
+                foreach($result as $row_child => $value_child) {
+                    if($value['section_parent'] == $value_child['section_id']) {
+                        if($value_child['section_parent'] == 0) {
+                            $child_nav[] = $value;
+                        }
+                    }
+                }
+                
+            }
+
+        }
+
+        $result = $child_nav;
+
+        return $result;
+    }
+}
+
+if(!function_exists('get_privileges')) {
+    function get_privileges()
+    {
+        $ci =& get_instance();
+
+        $navigasi = array();
+        $result = $ci->db->get('privileges')->result_array();
+        
+
+        return $result;
+    }
+}
+
+if(!function_exists('get_privileges_status')) {
+    function get_privileges_status($id)
+    {
+        $ci =& get_instance();
+
+        $navigasi = array();
+        $ci->db->where('admin_id', $id);
+        $result = $ci->db->get('privileges_status')->result_array();
+        
+
+        return $result;
+    }
+}
+
 if(!function_exists('check_table')){
     function check_table()
     {
@@ -63,7 +152,7 @@ if(!function_exists('pre')){
         echo '<pre>';
         print_r($array);
         echo '</pre>';
-        exit;
+        exit();
     }
 }
 
@@ -190,5 +279,50 @@ if(!function_exists('delete_row')){
             
             return true;
         }   
+    }
+}
+
+// removed list
+// if the system not error, it will be removed
+
+if(!function_exists('menu_navigasi_superadmin')) {
+    function menu_navigasi_superadmin()
+    {
+        $ci =& get_instance();
+
+        $navigasi = array();
+        $result = $ci->db->select('section_id')->select('section_name')->select('section_parent')->get('section')->result_array();
+        
+        // get check parent navigasi
+        foreach($result as $row => $value){
+            if($value['section_parent'] == 0) {
+                $navigasi[] = $value;
+            }
+
+            // get child nav
+            if($value['section_parent'] > 0) {
+                foreach($result as $row_child => $value_child) {
+                    if($value['section_parent'] == $value_child['section_id']) {
+                        if($value_child['section_parent'] == 0) {
+                            $child_nav[] = $value;
+                        }
+                    }
+                }
+                
+            }
+
+        }
+
+        // merge parent navigasi && child navigasi
+        foreach($navigasi as $row => $value) {
+            foreach($child_nav as $row_child => $value_child) {
+                if($value['section_id'] == $value_child['section_parent']) {
+                    $navigasi[$row]['child'][] = $value_child;
+                }
+            }
+        }
+        $result = $navigasi;
+
+        return $result;
     }
 }

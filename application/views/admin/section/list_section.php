@@ -13,7 +13,7 @@
                 ?>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="moxTable">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 10%;">No</th>
@@ -28,7 +28,6 @@
                                 foreach($section as $row => $value){ 
                             ?>
                                 <tr class="<?= ($value['unique_id'] %2)?'even':'odd'; ?>">
-                                    <td class="hidden"><?php echo $row['section_id'] ?></td>
                                     <td><?= $row+1 ?></td>
                                     <td><?= $value['section_name']; ?></td>
                                     <td><?= $value['section_parent']; ?></td>
@@ -61,7 +60,7 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('#dataTables-example').DataTable({
+        $('#moxTable').DataTable({
             responsive: true
         });
     });

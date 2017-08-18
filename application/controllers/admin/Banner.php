@@ -12,6 +12,7 @@ class Banner extends CI_Controller
     function __construct()
 	{
 		parent::__construct();
+        checking_session();
 	}
 	
     function index()
@@ -37,7 +38,7 @@ class Banner extends CI_Controller
     {
         $this->load->library('upload');
         $asset = array(
-            'title'     =>$this->title,
+            'title'     =>'Add ' .$this->title,
             'js'        =>array('ckeditor/adapters/jquery', 'ckeditor/ckeditor'),
             'css'       =>array()
         ); 
@@ -62,22 +63,29 @@ class Banner extends CI_Controller
         }    
     }
     
-    public function updates()
-    {
+    public function view($item_id=false)
+    {   
         $this->load->library('form_validation');
         $this->load->library('upload');
         $asset = array(
-            'title'     =>$this->title,
-            'js'        =>array('bootstrap.min'),
-            'css'       =>array('bootstrap.min'),
-            'userdata'  => $this->session->userdata()
+            'title'     =>'View ' .$this->title,
+            'js'        =>array('ckeditor/adapters/jquery', 'ckeditor/ckeditor'),
+            'css'       =>array()
         ); 
         
-        $this->form_validation->set_rules('name_banner', 'name_banner', 'required');
+        $this->load->model($this->model);
+        $model_name = $this->model;
+        $check_banner = $this->$model_name->get($item_id);
         
+        $asset['banner'] = $check_banner;
+        
+        $this->form_validation->set_rules('name_banner', 'name_banner', 'required');
         if($this->form_validation->run()==FALSE)
         {
-            echo "failed";    
+            $this->load->view('admin/template/header', $asset);
+            $this->load->view('admin/template/top');
+            $this->load->view('admin/' .$this->url .'/view_' .$this->url);
+            $this->load->view('admin/template/footer'); 
         }
         else
         {
@@ -88,34 +96,7 @@ class Banner extends CI_Controller
             
             redirect(base_url('admin/' .$this->url)); 
             
-        }
-    }
-    
-    public function view($item_id)
-    {   
-        $asset = array(
-            'title'     =>'View Banner',
-            'js'        =>array('bootstrap.min', 'ckeditor/adapters/jquery', 'ckeditor/ckeditor','jquery.dataTables.min', 'dataTables.bootstrap.min', 'dataTables.responsive'),
-            'css'       =>array('bootstrap.min', 'dataTables.bootstrap', 'dataTables.responsive'),
-            'userdata'  => $this->session->userdata()
-        ); 
-        
-        $this->load->model($this->model);
-        $this->load->model($this->model_additional);
-        $model_name = $this->model;
-        $model_additional = $this->model_additional;
-        $check_banner = $this->$model_name->get($item_id);
-        $check_additional = $this->$model_additional->get($item_id);
-        
-        $asset['banner'] = $check_banner;
-        $asset['banner_additional'] = $check_additional;
-        
-        //pre($asset['banner_additional']);
-       
-        $this->load->view('admin/template/header', $asset);
-        $this->load->view('admin/template/top');
-        $this->load->view('admin/' .$this->url .'/view_' .$this->url);
-        $this->load->view('admin/template/footer');   
+        }  
     }
     
     

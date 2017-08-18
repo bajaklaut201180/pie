@@ -11,6 +11,7 @@ class Banner_additional extends CI_Controller
     function __construct()
 	{
 		parent::__construct();
+        checking_session();
 	}
 	
     function index()

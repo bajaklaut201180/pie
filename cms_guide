@@ -1,0 +1,7 @@
+how to use cms
+
+1. table on mysql adjusted to the controller file (especially file names same as table name)
+2. direct copy of an existing file
+3. create model file same as before
+4. create view on admin directory, the new folder is the same as the table name
+5. file structure equates to existing one
